@@ -48,7 +48,7 @@ services:
       - 9093:9093
     volumes:
       - ./alertmanager/:/etc/alertmanager/
-    restart: always
+    
     command:
       - '-config.file=/etc/alertmanager/config.yml'
       - '-storage.path=/alertmanager'
@@ -76,4 +76,4 @@ services:
       - ./blackboxexporter/:/etc/blackboxexporter/
     command:
       - '--config.file=/etc/blackboxexporter/config.yml'
-    restart: always
+    
