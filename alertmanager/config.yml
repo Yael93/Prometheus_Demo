@@ -1,7 +1,40 @@
+global:
+  smtp_smarthost: 'smtp.office365.com:587'
+  smtp_from: 'Alarmas Paradisus <alerts_prom@outlook.com>'
+  smtp_require_tls: true
+  smtp_hello: 'sitwifi'
+  smtp_auth_username: 'alerts_prom@outlook.com'
+  smtp_auth_password: 'Nomames1.'
+
+
 route:
-    receiver: 'pager'
+  receiver: 'default'
+  routes:
+
+  - match:
+      alertname: NotificacionEquipos
+    group_by: ['job']
+    group_wait: 1m
+    group_interval: 1m
+    repeat_interval: 12h
+    receiver: destinatario
+
+templates:
+
+  - /etc/alertmanager/template/cuerpo.html
+  - /etc/alertmanager/template/titulo.html
 
 receivers:
-    - name: 'pager'
-      webhook_configs:
-      - url: https://ngrok.io # replace with your PagerTree webhook url
+
+  - name: 'destinatario'
+    email_configs:
+    - send_resolved: true
+      to: yrevuelta@palaceresorts.com
+      html: '{{ template "cuerpo.html" . }}'
+      headers:
+        subject: '{{ template "titulo.html" . }}'
+  - name: 'default'
+    email_configs:
+    - send_resolved: false
+      to: nadie@sitwifi.com
+      html: '{{ template "cuerpo.html" . }}'
