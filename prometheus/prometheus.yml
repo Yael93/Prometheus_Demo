@@ -34,4 +34,4 @@ rule_files:
       - source_labels: [__param_target]
         target_label: instance
       - target_label: __address__
-        replacement: localhost:9115
+        replacement: blackboc_exporter:9115
