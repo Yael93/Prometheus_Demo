@@ -1,0 +1,5 @@
+- targets:
+       - 192.168.9.250
+  labels:
+    service: 'The Grand Huespedes 1'
+    device: 'Enlace Internet'
