@@ -20,8 +20,7 @@ services:
     ports:
       - 9090:9090
     links:
-      - alertmanager:alertmanager
-    restart: always
+      - alertmanager:alertmanager 
     deploy:
       mode: global
 
@@ -47,8 +46,7 @@ services:
     ports:
       - 9093:9093
     volumes:
-      - ./alertmanager/:/etc/alertmanager/
-    
+      - ./alertmanager/:/etc/alertmanager/    
     command:
       - '-config.file=/etc/alertmanager/config.yml'
       - '-storage.path=/alertmanager'
