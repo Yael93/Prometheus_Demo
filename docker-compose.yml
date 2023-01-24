@@ -20,7 +20,11 @@ services:
     ports:
       - 9090:9090
     links:
-      - alertmanager:alertmanager 
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    depends_on:
+      - cadvisor
+    restart: always
     deploy:
       mode: global
 
@@ -46,10 +50,24 @@ services:
     ports:
       - 9093:9093
     volumes:
-      - ./alertmanager/:/etc/alertmanager/    
+      - ./alertmanager/:/etc/alertmanager/
+    restart: always
     command:
       - '-config.file=/etc/alertmanager/config.yml'
       - '-storage.path=/alertmanager'
+    deploy:
+      mode: global
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8080
+    restart: always
     deploy:
       mode: global
 
@@ -74,4 +92,4 @@ services:
       - ./blackboxexporter/:/etc/blackboxexporter/
     command:
       - '--config.file=/etc/blackboxexporter/config.yml'
-    
+    restart: always
